@@ -11,10 +11,12 @@ const replaceImages = async (template, images) => {
   newTemplate = 'temp.' + newTemplate[newTemplate.length - 1]
 
   for (let i = 0; i < images.length; i++) {
+    let usedTemplate = i === 0 ? template : `/temp/${newTemplate}`
     const image = images[i]
+ 
     try {
       await exec(
-        `sh replace-image.sh ${template} ${newTemplate} ${image.destination} ${image.source}`
+        `sh replace-image.sh ${usedTemplate} ${newTemplate} ${image.destination} ${image.source}`
       )
 
       if (!executed) {
