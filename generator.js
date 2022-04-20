@@ -3,7 +3,10 @@ const path = require('path')
 const mime = require('mime-types')
 const carbone = require('carbone')
 const util = require('util')
+const AWS = require('aws-sdk')
 const exec = util.promisify(require('child_process').exec)
+
+AWS.config.update({ region: process.env.AWS_REGION })
 
 const replaceImages = async (template, images) => {
   let executed = false
@@ -50,7 +53,7 @@ const render = (template, data, options) => {
   })
 }
 
-const seveToS3 = (Body, Key) => {
+const saveToS3 = (Body, Key) => {
   return new Promise((resolve, reject) => {
     const s3 = new AWS.S3()
     s3.upload({
@@ -97,7 +100,7 @@ module.exports = async (res, params, download = false) => {
       res.end(buffer)
     } else {
       try {
-        const url = await seveToS3(buffer, filename)
+        const url = await saveToS3(buffer, filename)
         res.json({ url })
       } catch (e) {
         res.statusCode = 500

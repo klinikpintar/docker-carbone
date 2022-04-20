@@ -1,7 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 const cors = require('cors')
-const AWS = require('aws-sdk')
 const dotenv = require('dotenv')
 const multer = require('multer')
 const express = require('express')
@@ -11,7 +10,6 @@ const generate = require('./generator')
 
 const app = express()
 dotenv.config()
-AWS.config.update({ region: process.env.AWS_REGION })
 
 const username = process.env.USER || 'user'
 const password = process.env.PASSWORD || 'password'
