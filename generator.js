@@ -6,8 +6,6 @@ const util = require('util')
 const AWS = require('aws-sdk')
 const exec = util.promisify(require('child_process').exec)
 
-AWS.config.update({ region: process.env.AWS_REGION })
-
 const replaceImages = async (template, images) => {
   let executed = false
   let newTemplate = template.split('.')
@@ -54,9 +52,14 @@ const render = (template, data, options) => {
 }
 
 const saveToS3 = (Body, Key) => {
+  const s3Client = new AWS.S3({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_REGION
+  })
+
   return new Promise((resolve, reject) => {
-    const s3 = new AWS.S3()
-    s3.upload({
+    s3Client.upload({
       ACL: 'public-read',
       Bucket: process.env.AWS_BUCKET_NAME,
       Body,
@@ -95,7 +98,7 @@ module.exports = async (res, params, download = false) => {
       res.set({
         'Access-Control-Expose-Headers': 'Content-Disposition',
         'Content-Type': mime.lookup(filename),
-        'Content-Disposition': `attachment; filename=${filename}`
+        'Content-Disposition': `attachment; filename=${filename.split('/').pop()}`
       })
       res.end(buffer)
     } else {
@@ -103,6 +106,7 @@ module.exports = async (res, params, download = false) => {
         const url = await saveToS3(buffer, filename)
         res.json({ url })
       } catch (e) {
+        console.log(e)
         res.statusCode = 500
         res.json({ message: e.message || 'Error save to S3' })
       }

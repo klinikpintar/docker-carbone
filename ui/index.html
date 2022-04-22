@@ -49,14 +49,26 @@
         </div>
     </div>
     <div id="modal-test" class="modal fade" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Test Template</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <div class="row">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" checked name="fieldAs" id="fieldAsForm" value="form">
+                    <label class="form-check-label" for="fieldAsForm">FORM</label>
+                  </div>  
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="fieldAs" id="fieldAsJson" value="json">
+                    <label class="form-check-label" for="fieldAsJson">JSON</label>
+                  </div>  
+                </div>
+              </div>
+              <div id="form" class="row">
                 <div class="col col-12">
                   <div class="mb-3">
                     <label for="template" class="form-label">Template</label>
@@ -73,21 +85,37 @@
                 </div>
                 <div class="col col-12">
                   <div class="mb-3">
-                    <label for="json" class="form-label">JSON Data</label>
-                    <textarea class="form-control" id="json" rows="3"></textarea>
+                    <label for="json" class="form-label">Images Replace</label>
+                    <textarea class="form-control" id="imagesReplace" rows="3"></textarea>
                   </div>
                 </div>
                 <div class="col col-12">
                   <div class="mb-3">
-                    <label for="options" class="form-label">JSON Options</label>
-                    <textarea class="form-control" id="options" rows="3"></textarea>
+                    <label for="jsonData" class="form-label">JSON Data</label>
+                    <textarea class="form-control" id="jsonData" rows="3"></textarea>
+                  </div>
+                </div>
+                <div class="col col-12">
+                  <div class="mb-3">
+                    <label for="jsonOptions" class="form-label">JSON Options</label>
+                    <textarea class="form-control" id="jsonOptions" rows="3"></textarea>
                   </div>
                 </div>
               </div>
+              <div id="json" style="display:none;">
+                <label for="formData" class="form-label">Form Data</label>
+                <textarea class="form-control" placeholder="Insert payload here" id="formData" rows="12"></textarea>
+              </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-              <button id="test" type="button" class="btn btn-primary">Download</button>
+            <div class="modal-footer justify-content-between">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="asDownload" checked>
+                <label class="form-check-label" for="asDownload">Download</label>
+              </div>
+              <div>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button id="test" type="button" class="btn btn-primary">Test</button>
+              </div>
             </div>
           </div>
         </div>
